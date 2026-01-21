@@ -19,7 +19,7 @@ namespace ISO8583Demo
         /// </summary>
         public string? this[int fieldNumber]
         {
-            get => _dataElements.ContainsKey(fieldNumber) ? _dataElements[fieldNumber] : null;
+            get => _dataElements.TryGetValue(fieldNumber, out var value) ? value : null;
             set
             {
                 if (value != null)
@@ -65,12 +65,11 @@ namespace ISO8583Demo
             result.AddRange(GenerateBitmap());
             
             // Add data elements in order
-            foreach (var field in _dataElements.Keys.OrderBy(k => k))
+            foreach (var kvp in _dataElements.OrderBy(k => k.Key))
             {
-                var value = _dataElements[field];
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(kvp.Value))
                 {
-                    result.AddRange(Encoding.ASCII.GetBytes(value));
+                    result.AddRange(Encoding.ASCII.GetBytes(kvp.Value));
                 }
             }
             
