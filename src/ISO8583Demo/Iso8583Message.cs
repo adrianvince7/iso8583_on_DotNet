@@ -67,9 +67,10 @@ namespace ISO8583Demo
             // Add data elements in order
             foreach (var field in _dataElements.Keys.OrderBy(k => k))
             {
-                if (!string.IsNullOrEmpty(_dataElements[field]))
+                var value = _dataElements[field];
+                if (!string.IsNullOrEmpty(value))
                 {
-                    result.AddRange(Encoding.ASCII.GetBytes(_dataElements[field]));
+                    result.AddRange(Encoding.ASCII.GetBytes(value));
                 }
             }
             
