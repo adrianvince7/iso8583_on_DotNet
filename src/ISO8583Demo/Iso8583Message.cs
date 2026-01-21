@@ -12,15 +12,19 @@ namespace ISO8583Demo
     {
         private readonly Dictionary<int, string> _dataElements = new Dictionary<int, string>();
         
-        public string MessageType { get; set; }
+        public string MessageType { get; set; } = string.Empty;
         
         /// <summary>
         /// Set or get data element by field number
         /// </summary>
-        public string this[int fieldNumber]
+        public string? this[int fieldNumber]
         {
             get => _dataElements.ContainsKey(fieldNumber) ? _dataElements[fieldNumber] : null;
-            set => _dataElements[fieldNumber] = value;
+            set
+            {
+                if (value != null)
+                    _dataElements[fieldNumber] = value;
+            }
         }
         
         /// <summary>
